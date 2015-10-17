@@ -1,5 +1,21 @@
-
 ChangeLog
+
+v1.2.1 - Build_003 
+--------------------
++ Added ability to use an alternate key-binding for the gui trigger in the options settings.
+  User can now select "use alternate keybinding" in options, this will use what is specified
+  in the config file under <AlternateKeyBindingCode></AlternateKeyBindingCode>
+  The setting takes up to 3 values seperated by commas. The first two MUST be set.
+  So "LeftControl,Keypad9" is valid, so is "LeftShift,LeftAlt,Q". Case matters, don't use spaces.
+  Standard unity keybinding names are used, you can find them on the Unity website or via google.
+  http://docs.unity3d.com/400/Documentation/ScriptReference/KeyCode.html
+  They are processed in order and each requires the preceeding to be pressed.
+  So if you set "LeftControl,Keypad9" then hitting keypad9 and then LeftControl will usually not work.
+  When using three in the combo, note unity is a little twitchy in that you can hold the first down, but then
+  you ususally need to tap the second and third at basically the exact same time.
+
+~ Changed text of Show CTRL+L Gui to  Show Gui  (CTRL+L).. more logical.
+
 
 v1.2.1 - Build_002 
 --------------------

@@ -30,6 +30,8 @@ namespace CSLShowMoreLimits
         public string DumpStatsFilePath = "CSLShowMoreLimits_InfoDump.txt";
         public bool UseCustomLogFile = false;
         public string CustomLogFilePath = "CSLShowMoreLimits_Log.txt";
+        public bool UseAlternateKeyBinding = false;
+        public string AlternateKeyBindingCode = "LeftControl,LeftAlt,L";
         public Configuration() { }
 
         public static bool isCurrentVersion(uint iVersion)
@@ -39,6 +41,52 @@ namespace CSLShowMoreLimits
                 return false;
             }
             return true;
+        }
+
+        public static Helper.KeycodeData getAlternateKeyBindings(String sTheText)
+        { 
+            Helper.KeycodeData kcData = new Helper.KeycodeData();
+            kcData.NumOfCodes = 0;
+            kcData.kCode1 = KeyCode.None;
+            kcData.kCode2 = KeyCode.None;
+            kcData.kCode3 = KeyCode.None;
+            try
+            {
+                string[] sArray = sTheText.Split(',');
+                byte ilen = (byte)sArray.Length;
+                if (ilen <= 1)
+                { return kcData; }
+
+                if (ilen == 2)
+                {
+                    kcData.kCode1 = (KeyCode)Enum.Parse(typeof(KeyCode), sArray[0].ToString());
+                    kcData.kCode2 = (KeyCode)Enum.Parse(typeof(KeyCode), sArray[1].ToString());
+                    kcData.NumOfCodes = 2;
+                }
+                else
+                {
+                    kcData.kCode1 = (KeyCode)Enum.Parse(typeof(KeyCode), sArray[0].ToString());
+                    kcData.kCode2 = (KeyCode)Enum.Parse(typeof(KeyCode), sArray[1].ToString());
+                    kcData.kCode3 = (KeyCode)Enum.Parse(typeof(KeyCode), sArray[2].ToString());
+                    kcData.NumOfCodes = 3;
+                }
+                if (Mod.DEBUG_LOG_ON)
+                { Helper.dbgLog("Alternate Keys bound: " + kcData.NumOfCodes.ToString()); }
+
+            }
+            catch(Exception ex)
+            {
+                Helper.dbgLog(ex.Message.ToString(), ex, true);
+            }
+
+            if ((kcData.kCode1 == KeyCode.None) || kcData.kCode2 == KeyCode.None)
+            {
+                kcData.kCode1 = KeyCode.LeftControl; kcData.kCode2 = KeyCode.LeftAlt; kcData.kCode3 = KeyCode.L;
+                kcData.NumOfCodes = 3;
+                Helper.dbgLog("Alternate Keys enabled but used incorrectly, using default alternate.");
+            }
+            return kcData;
+
         }
 
         public static void Serialize(string filename, Configuration config)

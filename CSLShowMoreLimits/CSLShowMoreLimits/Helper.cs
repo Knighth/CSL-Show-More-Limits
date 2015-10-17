@@ -15,6 +15,14 @@ namespace CSLShowMoreLimits
 {
     public class Helper
     {
+        public struct KeycodeData
+        {
+            public byte NumOfCodes;
+            public KeyCode kCode1 ;
+            public KeyCode kCode2 ;
+            public KeyCode kCode3 ;
+        }
+
         public class ExternalData
         {
             public bool CoDataRefreshEnabled=false;

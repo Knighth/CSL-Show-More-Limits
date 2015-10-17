@@ -22,7 +22,7 @@ namespace CSLShowMoreLimits
         internal const string MOD_DLL_NAME = "CSLShowMoreLimits";
         internal const string MOD_DESCRIPTION = "Allows you to view # of objects and agents in use.";
         internal static readonly string MOD_DBG_Prefix = "CSLShowMoreLimits"; //same..for now.
-        internal const string VERSION_BUILD_NUMBER = "1.2.1-f1 build_002";
+        internal const string VERSION_BUILD_NUMBER = "1.2.1-f1 build_003";
         public static readonly string MOD_CONFIGPATH = "CSLShowMoreLimits_Config.xml";
         
         public static bool IsEnabled = false;           //tracks if the mod is enabled.
@@ -313,6 +313,12 @@ namespace CSLShowMoreLimits
             Configuration.Serialize(MOD_CONFIGPATH, config);
         }
 
+        private void OnUseAlternateKeyBinding(bool en)
+        {
+            config.UseAlternateKeyBinding = en;
+            Configuration.Serialize(MOD_CONFIGPATH, config);
+        }
+
 //        private void ResetStatsEveryXMin(bool en)
 //        {
 //            config.ResetStatsEveryXMinutesEnabled = en;
@@ -366,7 +372,7 @@ namespace CSLShowMoreLimits
                             case "Enable Verbose Logging":
                                 cb[i].tooltip = "Enables detailed logging for debugging purposes\n See config file for even more options, unless there are problems you probably don't want to enable this.\n Option must be set before loading game.";
                                 break;
-                            case "Enable CTRL + L GUI":
+                            case "Enable GUI (CTRL + L)":
                                 cb[i].tooltip = "Enable the availability of the in game gui\n (very handy but technically not required)\n Option must be set before loading game.";
                                 break;
                             case "Dump Stats to log on map exit":
@@ -374,6 +380,9 @@ namespace CSLShowMoreLimits
                                 break;
                             case "Auto show on map load":
                                 cb[i].tooltip = "Enable the info panel to be shown automatically on map load.\n Option must be set before loading game.";
+                                break;
+                            case "Use alternate keybinding":
+                                cb[i].tooltip = "Enable the use of an alternative key to trigger the gui\n You can set this in your config file\n The default alternative is LeftControl + (LeftAlt + L)<-same time, if not changed.";
                                 break;
                             default:
                                 break;
@@ -408,11 +417,11 @@ namespace CSLShowMoreLimits
             //string[] sOptions = new string[]{"8 - (JustTheTip)","16 - (Default)","24 - (Medium)","32 - (Large)","48 - (Very Large)","64 - (Massive)","96 - (Really WTF?)","128 - (FixYourMap!)","Custom - (SetInConfigFile)"};
             UIHelperBase group = helper.AddGroup("CSLShowMoreLimits");
             //group.AddDropdown("Number of Reserved Vehicles:", sOptions, GetOptionIndexFromValue(config.VehicleReserveAmount) , ReservedVehiclesChanged);
-            group.AddCheckbox("Enable CTRL + L GUI", IsGuiEnabled, OnUseGuiToggle);
+            group.AddCheckbox("Enable GUI (CTRL + L)", IsGuiEnabled, OnUseGuiToggle);
             group.AddCheckbox("Auto show on map load", config.AutoShowOnMapLoad, UpdateUseAutoShowOnMapLoad);
-            //group.AddCheckbox(string.Concat("GUI: Reset Stats every so often  (", config.ResetStatsEveryXMin, "min)"), config.ResetStatsEveryXMinutesEnabled , ResetStatsEveryXMin);
             group.AddCheckbox("Dump Stats to log on map exit", config.DumpStatsOnMapEnd, OnDumpStatsAtMapEnd);
             group.AddCheckbox("Enable Verbose Logging", DEBUG_LOG_ON, LoggingChecked);
+            group.AddCheckbox("Use alternate keybinding", config.UseAlternateKeyBinding, OnUseAlternateKeyBinding);
             group.AddSpace(20);
             if (Application.platform == RuntimePlatform.WindowsPlayer)
             {
@@ -422,130 +431,6 @@ namespace CSLShowMoreLimits
           
         }
 
-         /*
-         /// <summary>
-         /// We use this guy to make sure if we just disappeared from plugin list or disabled we make sure we're not active.
-         /// Actually I don't think I really need this anymore.
-         /// </summary>
-         /// <param name="caller"></param>
-        public static void CheckForChange(string caller)
-        {
-            byte flags = 0;
-            if (IsEnabled == false & IsRedirectActive == true )
-            {
-                ReverseRedirects();
-                flags = 1;
-            }
-
-            if(DEBUG_LOG_ON & DEBUG_LOG_LEVEL > 0){ 
-                Helper.dbgLog(" caller==" + caller.ToString() + " flags==" + flags.ToString() + 
-                " IsRedirectActive == " + IsRedirectActive.ToString() + " ReserveAmount==" + RESERVEAMOUNT.ToString());
-            }
-
-        }
-          
-          */ 
-
-//        public static void PluginsChanged()
-//        {
-//            try
-//            {
-//                PluginManager.PluginInfo pluginInfo = (
-//                    from p in Singleton<PluginManager>.instance.GetPluginsInfo()
-//#if (DEBUG)  //used for local debug testing
-//                    where p.name.ToString() == MOD_DLL_NAME 
-//#else   //used for steam distribution - public release.
-//                    where p.publishedFileID.AsUInt64 == MOD_WORKSHOPID
-//#endif
-//                    select p).FirstOrDefault<PluginManager.PluginInfo>();
-/*
-#if (DEBUG)
-                System.Text.StringBuilder sbuilder = new System.Text.StringBuilder("[CSLToggleDLC::Pluginchanged name dump.]",1024);
-                foreach (PluginManager.PluginInfo PI in Singleton<PluginManager>.instance.GetPluginsInfo())
-                {
-                    sbuilder.AppendLine(PI.modPath.ToString() + "  |  " + PI.name.ToString());
-                }
-                Helper.dbgLog(sbuilder.ToString());
-#endif
-*/
-
-/*                if (pluginInfo == null)
-                {
-                    Mod.IsEnabled = false;
-                    Helper.dbgLog("Plugin can't find itself in plugin-list. No idea if this mod is enabled");
-//                    CheckForChange("PluginChanged");
-                }
-              else
-                {
-                    //we have this here incase maybe some other plugin wants to disable us upon thier own loading so we
-                    //keep checking everytime there is a plugin change that we're still enabled. This whole idea may be overkill
-                    Mod.IsEnabled = pluginInfo.isEnabled;
-                    if(Mod.DEBUG_LOG_ON & Mod.DEBUG_LOG_LEVEL > 2) Helper.dbgLog("PluginChangeNotify, mod is still enabled.");
-                } 
-            }
-            catch (Exception exception1)
-            {
-                Helper.dbgLog("PluginsChanged() triggered exception: ", exception1, true);
-            }
-        }
-*/
-
-
-/*        public static void SetupRedirects()
-        {
-            if (IsRedirectActive) { return; }
-
-            try
-            {
-
-                RedirectCalls(typeof(VehicleManager), typeof(KHVehicleManager), "CreateVehicle");
-                IsRedirectActive = true;
-
-                if (DEBUG_LOG_ON) { Helper.dbgLog("Redirected function calls."); }
-            }
-            catch (Exception exception1)
-            {
-                Exception exception = exception1;
-                DebugOutputPanel.AddMessage(PluginManager.MessageType.Error, exception.ToString());
-                Helper.dbgLog(" *Critical exception triggered while setting up redirects: ", exception,true);
-            }
-        }
-
-
-        public static void ReverseRedirects()
-        {
-            if (IsRedirectActive == false) { return; }
-            if (redirectDic.Count == 0)
-            {
-                if (DEBUG_LOG_ON) { Helper.dbgLog("No state entries exists to Revert"); }
-                return;
-            }
-            try
-            {
-                foreach (var keypair in redirectDic)
-                {
-                    RedirectionHelper.RevertRedirect(keypair.Key, keypair.Value);
-                }
-                redirectDic.Clear();
-                IsRedirectActive = false;
-                if (DEBUG_LOG_ON) { Helper.dbgLog("Reverted redirected function calls"); }
-            }
-            catch (Exception exception1)
-            { Helper.dbgLog(" ***Critical error while reverting redirected back.", exception1, true); }
-        }
-
-
-
-        private static void RedirectCalls(Type type1, Type type2, string p)
-        {
-            var bindflags1 = BindingFlags.Instance | BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic;
-            var bindflags2 = BindingFlags.Static | BindingFlags.NonPublic;
-            var theMethod = type1.GetMethod(p, bindflags1);
-            redirectDic.Add(theMethod, RedirectionHelper.RedirectCalls(theMethod, type2.GetMethod(p, bindflags2), false));
-            //RedirectionHelper.RedirectCalls(type1.GetMethod(p, bindflags1), type2.GetMethod(p, bindflags2), false);
-        }
-
-         */
     }
 
 }

@@ -88,6 +88,8 @@ namespace CSLShowMoreLimits
 
 //        private Stopwatch MyPerfTimer = new Stopwatch();
         private ItemClass.Availability CurrentMode;
+        private Helper.KeycodeData AlternateBindingData;
+        private bool bUseAlternateKeys = false;
 
 
 
@@ -97,9 +99,26 @@ namespace CSLShowMoreLimits
         /// </summary>
         public override void Update()
         {
-            if ((Input.GetKey(KeyCode.LeftControl) || Input.GetKey(KeyCode.RightControl)) && Input.GetKeyDown(KeyCode.L))
+            if (bUseAlternateKeys)
             {
-                this.ProcessVisibility();
+                if (AlternateBindingData.NumOfCodes == 2)
+                {
+                    if (Input.GetKey(AlternateBindingData.kCode1) && Input.GetKeyDown(AlternateBindingData.kCode2))
+                    { this.ProcessVisibility(); }
+                }
+                else 
+                {
+                    if (Input.GetKey(AlternateBindingData.kCode1) && Input.GetKeyDown(AlternateBindingData.kCode2) && Input.GetKey(AlternateBindingData.kCode3))
+                    { this.ProcessVisibility(); }
+                }
+            }
+            else
+            {
+                if ((Input.GetKey(KeyCode.LeftControl) || Input.GetKey(KeyCode.RightControl)) && Input.GetKeyDown(KeyCode.L))
+                {
+                    this.ProcessVisibility();
+
+                }
             }
             base.Update();
         }
@@ -178,6 +197,12 @@ namespace CSLShowMoreLimits
             FetchValueLabelData();
             CreateDataLabels();
             PopulateControlContainers();
+
+            if (Mod.config.UseAlternateKeyBinding)
+            {
+                AlternateBindingData = Configuration.getAlternateKeyBindings(Mod.config.AlternateKeyBindingCode);
+                if (AlternateBindingData.NumOfCodes > 1) { bUseAlternateKeys = true;}
+            }
 
 //            RefreshDisplayData(); //fill'em up manually initially.
             if (Mod.config.CheckStatsForLimitsEnabled)

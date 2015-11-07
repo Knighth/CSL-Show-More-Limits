@@ -1,5 +1,9 @@
 ChangeLog
 
+v1.2.2 - build_001
+-------------------
++ Updates for Latest patch (new limit figures)
+
 v1.2.1 - Build_003 
 --------------------
 + Added ability to use an alternate key-binding for the gui trigger in the options settings.

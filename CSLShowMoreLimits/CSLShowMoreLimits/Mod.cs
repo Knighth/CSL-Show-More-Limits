@@ -1,7 +1,6 @@
 ﻿using CitiesSkylinesDetour;
 using ColossalFramework;
 using ColossalFramework.Plugins;
-using ColossalFramework.Steamworks;
 using ColossalFramework.UI;
 using ICities;
 using System;
@@ -22,7 +21,7 @@ namespace CSLShowMoreLimits
         internal const string MOD_DLL_NAME = "CSLShowMoreLimits";
         internal const string MOD_DESCRIPTION = "Allows you to view # of objects and agents in use.";
         internal static readonly string MOD_DBG_Prefix = "CSLShowMoreLimits"; //same..for now.
-        internal const string VERSION_BUILD_NUMBER = "1.2.1-f1 build_003";
+        internal const string VERSION_BUILD_NUMBER = "1.6.0-f4 build_002";
         public static readonly string MOD_CONFIGPATH = "CSLShowMoreLimits_Config.xml";
         
         public static bool IsEnabled = false;           //tracks if the mod is enabled.

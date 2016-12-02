@@ -1,4 +1,17 @@
 ChangeLog
+v1.6.0-f4 - build_002
+------
++ enable in scenario editor (however note the background and buttons are missing atm).
+
+v1.6.0-f4 - build_001
+------
++recompiled against lastest disaster update dlls, very minor tweaks related to that, 
+note at the moment we don't load in the scenario editor.
+
+v1.3.0f2 - Build_001
+-----
++ recompiled against latest snowfall update dlls
+
 
 v1.2.2 - build_001
 -------------------

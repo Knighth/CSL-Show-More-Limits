@@ -4,7 +4,6 @@ using ColossalFramework.UI;
 using ColossalFramework.Math;
 using ColossalFramework.Plugins;
 using ColossalFramework.Threading;
-using ColossalFramework.Steamworks;
 using ICities;
 using System;
 using System.Linq;
@@ -48,11 +47,20 @@ namespace CSLShowMoreLimits
                 if (Mod.IsEnabled == true)
                 {
                     // only setup redirect when in a real game
-                    if (mode == LoadMode.LoadGame || mode == LoadMode.NewGame || mode==LoadMode.LoadMap ||mode==LoadMode.NewMap )
+                /*  NewScenarioFromGame,8
+                	NewScenarioFromMap,9
+	                LoadScenario,10
+	                NewGameFromScenario,11
+	                UpdateScenarioFromGame,12
+	                UpdateScenarioFromMap,13
+                */
+                    if (mode == LoadMode.LoadGame || mode == LoadMode.NewGame || mode==LoadMode.LoadMap ||mode==LoadMode.NewMap || mode== LoadMode.NewGame 
+                        || (int)mode == 8 || (int)mode == 9 || (int)mode == 10 || (int)mode == 11 || (int)mode == 12 || (int)mode == 13)
                     {
                         if (Mod.DEBUG_LOG_ON) { Helper.dbgLog("Asset modes not detcted"); }
                         if (Mod.IsGuiEnabled) { SetupGui(); } //setup gui if we're enabled.
                     }
+                    int a = (int)CurrentLoadMode;
                 }
                 else
                 {

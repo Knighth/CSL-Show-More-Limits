@@ -2,7 +2,7 @@
 using ColossalFramework.IO;
 using ColossalFramework.Plugins;
 using ColossalFramework.Packaging;
-using ColossalFramework.Steamworks;
+using ColossalFramework.PlatformServices;
 using ColossalFramework;
 using UnityEngine;
 using System;
@@ -270,7 +270,7 @@ namespace CSLShowMoreLimits
             StringBuilder pSB = new StringBuilder(262144);
             if (pSB != null)
             {
-                if (Steam.active == true && Steam.workshop != null && PackageManager.noWorkshop == false)
+                if (PlatformService.active == true && PlatformService.workshop != null && PackageManager.noWorkshop == false)
                 {
                     //                        PackageManager ppp = Singleton<PackageManager>.instance;
                     //                        List<FileSystemReporter> hhh = (List<FileSystemReporter>)typeof(PackageManager).GetField("m_FileSystemReporters", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance).GetValue(ppp);//.GetValue(ppp);
@@ -326,10 +326,10 @@ namespace CSLShowMoreLimits
                 {
                     sb.Append(String.Format(DumpVersion, Mod.VERSION_BUILD_NUMBER, DateTime.Now.ToString()));
                     sb.AppendLine(String.Format("CSLAppFullVersion: {0}  AppDataFormatVersion: {1}", BuildConfig.applicationVersionFull.ToString(), BuildConfig.DATA_FORMAT_VERSION.ToString()));
-                    if (Steam.active)
+                    if (PlatformService.active)
                     {
-                        sb.AppendLine(String.Concat("ContentAllowed: ", Steam.appID.ToString(), Steam.IsDlcInstalled(346791) ? ", Deluxe" : "",
-                            Steam.IsDlcInstalled(365040) ? ", preorder extras?" : "", Steam.IsDlcInstalled(369150) ? ", AfterDark" : "", "\r\n"));
+                        sb.AppendLine(String.Concat("ContentAllowed: ", PlatformService.appID.ToString(), PlatformService.IsDlcInstalled(346791) ? ", Deluxe" : "",
+                            PlatformService.IsDlcInstalled(365040) ? ", preorder extras?" : "", PlatformService.IsDlcInstalled(369150) ? ", AfterDark" : "", "\r\n"));
                     }
                 }
 

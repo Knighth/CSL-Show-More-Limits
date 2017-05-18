@@ -1,4 +1,9 @@
 ChangeLog
+
+v1.7.0-f5 - build_001
+------
+Compiled against 1.7 of game - no changes, release note really neccessary.
+
 v1.6.0-f4 - build_002
 ------
 + enable in scenario editor (however note the background and buttons are missing atm).

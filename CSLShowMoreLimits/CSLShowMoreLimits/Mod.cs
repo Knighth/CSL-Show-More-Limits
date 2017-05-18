@@ -21,7 +21,7 @@ namespace CSLShowMoreLimits
         internal const string MOD_DLL_NAME = "CSLShowMoreLimits";
         internal const string MOD_DESCRIPTION = "Allows you to view # of objects and agents in use.";
         internal static readonly string MOD_DBG_Prefix = "CSLShowMoreLimits"; //same..for now.
-        internal const string VERSION_BUILD_NUMBER = "1.6.0-f4 build_002";
+        internal const string VERSION_BUILD_NUMBER = "1.7.0-f5 build_001";
         public static readonly string MOD_CONFIGPATH = "CSLShowMoreLimits_Config.xml";
         
         public static bool IsEnabled = false;           //tracks if the mod is enabled.
